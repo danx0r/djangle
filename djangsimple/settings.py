@@ -1,4 +1,5 @@
 # Django settings for djangsimple project.
+import os
 
 DEBUG = True
 TEMPLATE_DEBUG = DEBUG
@@ -67,11 +68,14 @@ STATIC_ROOT = ''
 # Example: "http://example.com/static/", "http://static.example.com/"
 STATIC_URL = '/static/'
 
+staticpath = os.path.abspath(os.path.join(os.path.dirname(__file__), '..', '')) + "/static/"
+print "DXBUG file:", __file__, "static path:", staticpath
 # Additional locations of static files
 STATICFILES_DIRS = (
     # Put strings here, like "/home/html/static" or "C:/www/django/static".
     # Always use forward slashes, even on Windows.
     # Don't forget to use absolute paths, not relative paths.
+    staticpath,
 )
 
 # List of finder classes that know how to find static files in
@@ -112,7 +116,6 @@ WSGI_APPLICATION = 'djangsimple.wsgi.application'
 #     # Always use forward slashes, even on Windows.
 #     # Don't forget to use absolute paths, not relative paths.
 # )
-import os
 # set template path to root, so apps can specify their respective subdirectories
 tempath = os.path.abspath(os.path.join(os.path.dirname(__file__), '..', ''))
 # print "DXBUG file:", __file__, "template path:", tempath
