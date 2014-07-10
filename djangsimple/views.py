@@ -11,4 +11,5 @@ static_context = {
 
 def home(request):
     context = dict(static_context)
+    context['variable'] = "simple"
     return render(request, 'djangsimple/templates/index.html', context)
