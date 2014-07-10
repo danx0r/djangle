@@ -15,7 +15,7 @@ def do(path):
         if os.path.isdir(f):
             do(f)
             if os.path.basename(f) == old:
-                cmd = "mv %s %s" % (old, new)
+                cmd = "git mv %s %s" % (old, new)
                 print cmd
                 os.system(cmd)
                 
@@ -31,3 +31,4 @@ def do(path):
             
     os.chdir(oldpath)
 do('.')
+print "remember to commit!"
