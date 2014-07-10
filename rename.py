@@ -20,8 +20,7 @@ def do(path):
             g.close()
             s = s.replace("djangsimple", new)
             g = open(f, 'w')
-#             g.write(s)
-            print s
+            g.write(s)
             g.close()
             
     os.chdir(oldpath)
