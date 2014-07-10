@@ -19,7 +19,7 @@ def do(path):
             s = g.read()
             g.close()
             s = s.replace("djangsimple", new)
-            g = g.open(f, 'w')
+            g = open(f, 'w')
 #             g.write(s)
             print s
             g.close()
