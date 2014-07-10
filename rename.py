@@ -1,5 +1,6 @@
 import os, sys
 
+old = "djangsimple"
 new = sys.argv[1]
 
 def do(path):
@@ -13,12 +14,17 @@ def do(path):
         f = os.path.abspath(f)
         if os.path.isdir(f):
             do(f)
+            if os.path.basename(f) == old:
+                cmd = "mv %s %s" % (old, new)
+                print cmd
+                os.system(cmd)
+                
         else:
             print f
             g = open(f)
             s = g.read()
             g.close()
-            s = s.replace("djangsimple", new)
+            s = s.replace(old, new)
             g = open(f, 'w')
             g.write(s)
             g.close()
