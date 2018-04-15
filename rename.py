@@ -1,7 +1,7 @@
 import os, sys
 
-old = "djangsimple"
-new = sys.argv[1]
+old = b"djangsimple"
+new = bytes(sys.argv[1],'utf8')
 
 def do(path):
     oldpath = os.path.abspath('.')
@@ -16,19 +16,19 @@ def do(path):
             do(f)
             if os.path.basename(f) == old:
                 cmd = "git mv %s %s" % (old, new)
-                print cmd
+                print (cmd)
                 os.system(cmd)
-                
+
         else:
-            print f
-            g = open(f)
+            print (f)
+            g = open(f, 'rb')
             s = g.read()
             g.close()
             s = s.replace(old, new)
-            g = open(f, 'w')
+            g = open(f, 'wb')
             g.write(s)
             g.close()
             
     os.chdir(oldpath)
 do('.')
-print "remember to commit!"
+print ("remember to commit!")

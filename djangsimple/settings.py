@@ -69,7 +69,7 @@ STATIC_ROOT = ''
 STATIC_URL = '/static/'
 
 staticpath = os.path.abspath(os.path.join(os.path.dirname(__file__), '..', '')) + "/static/"
-print "DXBUG file:", __file__, "static path:", staticpath
+print ("DXBUG file:", __file__, "static path:", staticpath)
 # Additional locations of static files
 STATICFILES_DIRS = (
     # Put strings here, like "/home/html/static" or "C:/www/django/static".
