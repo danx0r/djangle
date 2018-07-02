@@ -1,6 +1,6 @@
 import os, sys
 
-old = b'djangsimple'
+old = bytes(os.path.basename(os.path.abspath('.')), 'utf8')
 new = bytes(sys.argv[1], 'utf8')
 
 def do(path):
