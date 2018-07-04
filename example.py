@@ -3,7 +3,7 @@ import json
 
 MONGO="mongodb://127.0.0.1:27017"
 
-dj.set_mongo(MONGO, "test_db")
+dj.mongo_set(MONGO, "test_db")
 
 def get_version():
     return ("0.0.001")
@@ -17,18 +17,19 @@ def check_upsert(data):
         error()
     if 'type' not in k:
         error()
-    dj.write_mongo(data)
+    dj.mongo_write(data)
 
 # simple:
 
-dj.create_endpt("api",
+dj.create_endpoint("api",
                 get=True,
                 post=True,
-                options={'upsert':dj.write_mongo,
+                options={'upsert':dj.mongo_write,
                          'getVersion':get_version})
 # schema check:
 
-dj.create_endpt("api",
+dj.create_endpoint("api",
                 post=True,
                 options={'upsert':dj.check_upsert,
-                         'getVersion':get_version})
+                         'getVersion':get_version,
+                         'search':dj.mongo_read})
