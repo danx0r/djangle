@@ -23,11 +23,10 @@ def home(request):
     if "?" in endpt:
         endpt = endpt[:endpt.find("?")]
     print ("ENDPT:",endpt)
-    if endpt==u'version':
-        return HttpResponse(main.version())
-    context = dict(static_context)
-    context['variable'] = "simple"
-    return render(request, 'djangle/templates/index.html', context)
+    return HttpResponse(vars(main)[endpt]())
+    # context = dict(static_context)
+    # context['variable'] = "simple"
+    # return render(request, 'djangle/templates/index.html', context)
 
 # def insert(request):
 #     # context = dict(static_context)
