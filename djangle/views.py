@@ -23,7 +23,8 @@ def home(request):
     if "?" in endpt:
         endpt = endpt[:endpt.find("?")]
     print ("ENDPT:",endpt)
-    return HttpResponse(vars(main)[endpt]())
+    print ("GET:",request.GET)
+    return HttpResponse(vars(main)[endpt](**request.GET))
     # context = dict(static_context)
     # context['variable'] = "simple"
     # return render(request, 'djangle/templates/index.html', context)
