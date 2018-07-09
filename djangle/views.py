@@ -1,11 +1,12 @@
-import json
+import sys, json
 # from django.http import Http404
 # from django.shortcuts import get_object_or_404, render
-from django.http import JsonResponse
+from django.http import HttpResponse
 # from django.core.urlresolvers import reverse
 from django.shortcuts import render, get_object_or_404, render_to_response
 import pymongo
 
+sys.path.append("..")
 import main
 
 host=pymongo.MongoClient()
@@ -17,6 +18,13 @@ static_context = {
 }
 
 def home(request):
+    endpt = request.get_full_path()
+    endpt = endpt.replace("/","")
+    if "?" in endpt:
+        endpt = endpt[:endpt.find("?")]
+    print ("ENDPT:",endpt)
+    if endpt==u'version':
+        return HttpResponse(main.version())
     context = dict(static_context)
     context['variable'] = "simple"
     return render(request, 'djangle/templates/index.html', context)
