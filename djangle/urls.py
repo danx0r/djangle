@@ -2,6 +2,5 @@ from django.conf.urls import url
 import djangle.views as views
 
 urlpatterns = [
-    url(r'^$', views.home, name='home'),
-    url(r'^insert$', views.insert, name='insert'),
+    url(r'^', views.home, name='home'),
 ]
