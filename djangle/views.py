@@ -4,6 +4,7 @@ import sys, json
 from django.http import JsonResponse, HttpResponse
 # from django.core.urlresolvers import reverse
 from django.shortcuts import render, get_object_or_404, render_to_response
+from django.views.decorators.csrf import csrf_exempt
 import traceback
 import pymongo
 import djhelpers as dj
@@ -20,6 +21,7 @@ static_context = {
 
 modules = {}
 
+@csrf_exempt
 def home(request):
     endpt = request.get_full_path()
     if "?" in endpt:
@@ -52,10 +54,14 @@ def home(request):
         traceback.print_exc()
         return dj.error("api function not found: %s"%endpt)
     print ("ARGS:",parts)
+    print ("POST:",request.POST)
     print ("GET:",request.GET)
-    kwords = {}
-    for key,val in request.GET.items():
-        kwords[key]=val
+    if request.method=="POST":
+        kwords = json.loads(request.body.decode('utf8'))
+    else:
+        kwords = {}
+        for key,val in request.GET.items():
+            kwords[key]=val
     ret = func(*parts, **kwords)
     print ("RETURNS:",ret)
     return ret
