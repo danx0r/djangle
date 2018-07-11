@@ -1,13 +1,14 @@
 import sys, json
 # from django.http import Http404
 # from django.shortcuts import get_object_or_404, render
-from django.http import HttpResponse
+from django.http import JsonResponse, HttpResponse
 # from django.core.urlresolvers import reverse
 from django.shortcuts import render, get_object_or_404, render_to_response
+import traceback
 import pymongo
+import djhelpers as dj
 
 sys.path.append("..")
-import main
 
 host=pymongo.MongoClient()
 db=host['test']
@@ -17,29 +18,44 @@ static_context = {
     'scripts': 'static/scripts/',
 }
 
+modules = {}
+
 def home(request):
     endpt = request.get_full_path()
-    endpt = endpt.replace("/","")
     if "?" in endpt:
         endpt = endpt[:endpt.find("?")]
-    print ("ENDPT:",endpt)
-    print ("GET:",request.GET)
-    return HttpResponse(vars(main)[endpt](**request.GET))
-    # context = dict(static_context)
-    # context['variable'] = "simple"
-    # return render(request, 'djangle/templates/index.html', context)
+    parts = [x for x in endpt.split("/") if x != ""]
+    print ("PARTS:",parts)
+    if len(parts)<1:
+        return dj.html("Perhaps you need some help?")
 
-# def insert(request):
-#     # context = dict(static_context)
-#     # context['variable'] = "compex"
-#     # return render(request, 'djangle/templates/index.html', context)
-#     if request.method=="GET":
-#         s = request.GET.get('insert', None)
-#     else: #POST
-#         s=request.body.decode('utf8')
-#     j=json.loads(s)
-#     print (j)
-#     print ("mongo:", db.test.save(j))
-#     print (j)
-#
-#     return JsonResponse({"id": str(j['_id'])})
+    try:
+        mod = parts.pop(0)
+    except:
+        traceback.print_exc()
+        return dj.error("must specify a module")
+    if mod not in modules:
+        print ("Loading", mod)
+        try:
+            modules[mod]=__import__(mod)
+            print("Loaded", mod)
+        except:
+            traceback.print_exc()
+            return dj.error("api module not found: %s" % mod)
+    try:
+        func = parts.pop(0)
+    except:
+        return dj.error("must specify a function")
+    try:
+        func = vars(modules[mod])[func]
+    except:
+        traceback.print_exc()
+        return dj.error("api function not found: %s"%endpt)
+    print ("ARGS:",parts)
+    print ("GET:",request.GET)
+    kwords = {}
+    for key,val in request.GET.items():
+        kwords[key]=val
+    ret = func(*parts, **kwords)
+    print ("RETURNS:",ret)
+    return ret
