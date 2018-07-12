@@ -17,3 +17,6 @@ def version():
 #
 def testy(*args, **kw):
     return dj.html("args: %s keywords: %s" % (args,kw))
+
+def testx(arg1, arg2, ass, fish=None):
+    return dj.html("%s %s %s %s" % (arg1, arg2, ass, fish))

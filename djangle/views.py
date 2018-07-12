@@ -62,6 +62,9 @@ def home(request):
         kwords = {}
         for key,val in request.GET.items():
             kwords[key]=val
-    ret = func(*parts, **kwords)
+    try:
+        ret = func(*parts, **kwords)
+    except:
+        return dj.html(traceback.format_exc())
     print ("RETURNS:",ret)
     return ret
