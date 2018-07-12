@@ -10,6 +10,7 @@ def error(s):
     return JsonResponse({'error': s})
 
 def json(x):
+    print ("DEBUG",x)
     if type(x) not in (dict, list):
         x = {'response': x}
     return JsonResponse(x)

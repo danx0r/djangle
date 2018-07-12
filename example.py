@@ -16,7 +16,9 @@ def version():
 # Create endpoint /api?search=abcdef123
 #
 def testy(*args, **kw):
-    return dj.html("args: %s keywords: %s" % (args,kw))
+    if "RAWDATA" in kw:
+        kw["RAWDATA"] = kw["RAWDATA"].decode('utf8')
+    return dj.json({"args": args, "keywords": kw})
 
 def testx(arg1, arg2, ass, fish=None, RAWDATA=None):
     return dj.html("%s %s %s %s and %d bytes of raw data" % (arg1, arg2, ass, fish, len(RAWDATA)))
