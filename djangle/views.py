@@ -56,12 +56,12 @@ def home(request):
     print ("ARGS:",parts)
     print ("POST:",request.POST)
     print ("GET:",request.GET)
+    kwords = {}
+    for key,val in request.GET.items():
+        kwords[key]=val
     if request.method=="POST":
-        kwords = json.loads(request.body.decode('utf8'))
-    else:
-        kwords = {}
-        for key,val in request.GET.items():
-            kwords[key]=val
+        kwords['RAWDATA'] = request.body#.decode('utf8'))
+
     try:
         ret = func(*parts, **kwords)
     except:
