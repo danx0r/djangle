@@ -1,4 +1,4 @@
-#this file gets imported by djangle
+#this file gets imported by djserver
 from djngl import djhelpers as dj
 
 MONGO="mongodb://127.0.0.1:27017"

@@ -1,4 +1,4 @@
-# djangle
+# djserver
 Django recipes FTW
 
 copy example.py to .. level & rename
