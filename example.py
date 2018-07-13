@@ -1,5 +1,5 @@
 #this file gets imported by djserver
-from djngl import djhelpers as dj
+from djangle import djhelpers as dj
 
 MONGO="mongodb://127.0.0.1:27017"
 dj.mongo_set(MONGO, "test_db")

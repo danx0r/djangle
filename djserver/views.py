@@ -39,9 +39,10 @@ def home(request):
     if mod not in modules:
         print ("Loading", mod)
         try:
+            base=os.path.abspath(".")
             os.chdir("..")
             modules[mod]=__import__(mod)
-            os.chdir("djngl")
+            os.chdir(base)
             print("Loaded", mod)
         except:
             traceback.print_exc()
