@@ -1,4 +1,4 @@
-import sys, json
+import sys, os
 # from django.http import Http404
 # from django.shortcuts import get_object_or_404, render
 from django.http import JsonResponse, HttpResponse
@@ -9,7 +9,7 @@ import traceback
 import pymongo
 import djhelpers as dj
 
-sys.path.append("..")
+sys.path.insert(0, os.path.abspath(".."))
 
 host=pymongo.MongoClient()
 db=host['test']
@@ -39,7 +39,9 @@ def home(request):
     if mod not in modules:
         print ("Loading", mod)
         try:
+            os.chdir("..")
             modules[mod]=__import__(mod)
+            os.chdir("djngl")
             print("Loaded", mod)
         except:
             traceback.print_exc()

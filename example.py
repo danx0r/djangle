@@ -1,7 +1,5 @@
 #this file gets imported by djangle
-import sys
-import djhelpers as dj
-sys.path.append("..")
+from djngl import djhelpers as dj
 
 MONGO="mongodb://127.0.0.1:27017"
 dj.mongo_set(MONGO, "test_db")
@@ -16,7 +14,7 @@ def version():
 # Create endpoint /api?search=abcdef123
 #
 def testy(*args, **kw):
-    if "RAWDATA" in kw:
+    if "RAWDATA" in kw and type(kw["RAWDATA"])==bytes:
         kw["RAWDATA"] = kw["RAWDATA"].decode('utf8')
     return dj.json({"args": args, "keywords": kw})
 
