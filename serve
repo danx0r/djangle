@@ -1,0 +1,16 @@
+#!/usr/bin/python3
+import sys,os,argparse
+
+def serve(host="127.0.0.1", port=8000):
+    os.chdir("djangle")
+    cmd="python3 manage.py runserver %s:%s" % (host,port)
+    os.system(cmd)
+
+parser = argparse.ArgumentParser(description=__doc__)
+
+parser.add_argument('--host', default="127.0.0.1")
+parser.add_argument('--port', default=8000)
+
+args = parser.parse_args()
+
+serve(args.host, args.port)

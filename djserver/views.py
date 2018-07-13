@@ -61,6 +61,8 @@ def home(request):
     print ("GET:",request.GET)
     kwords = {}
     for key,val in request.GET.items():
+        if key=="RAWDATA":
+            val=bytes(val,encoding='utf8')
         kwords[key]=val
     if request.method=="POST":
         kwords['RAWDATA'] = request.body#.decode('utf8'))

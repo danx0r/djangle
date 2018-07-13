@@ -19,4 +19,4 @@ def testy(*args, **kw):
     return dj.json({"args": args, "keywords": kw})
 
 def testx(arg1, arg2, ass, fish=None, RAWDATA=None):
-    return dj.html("%s %s %s %s and %d bytes of raw data" % (arg1, arg2, ass, fish, len(RAWDATA)))
+    return dj.html("%s %s %s %s and %d bytes of raw data type %s" % (arg1, arg2, ass, fish, len(RAWDATA),type(RAWDATA)))
