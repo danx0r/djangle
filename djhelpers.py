@@ -7,12 +7,7 @@ def mongo_set(*args):
 def mongo_query(*args):
     pass
 
-def mongo_save_one_json(collection, data):
-    data=JSON.loads(data.decode('utf8'))
-    return json("saved '%s' to %s" % (data,collection))
-
-def mongo_save_multi_json(collection, data):
-    data=JSON.loads(data.decode('utf8'))
+def mongo_save(collection, data):
     return json("saved '%s' to %s" % (data,collection))
 
 def error(s):

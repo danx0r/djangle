@@ -1,4 +1,4 @@
-import sys, os
+import sys, os, json
 # from django.http import Http404
 # from django.shortcuts import get_object_or_404, render
 from django.http import JsonResponse, HttpResponse
@@ -60,13 +60,45 @@ def home(request):
     print ("POST:",request.POST)
     print ("GET:",request.GET)
     kwords = {}
+    format="json"
+    data=None
     for key,val in request.GET.items():
-        if key=="RAWDATA":
-            val=bytes(val,encoding='utf8')
-        kwords[key]=val
+        if key=="data":
+            data=bytes(val,encoding='utf8')
+        elif key == "format":
+            format = val
+        else:
+            kwords[key]=val
     if request.method=="POST":
-        kwords['RAWDATA'] = request.body#.decode('utf8'))
+        data = request.body#.decode('utf8'))
 
+    if data:
+        print ("DATA:",data)
+        if format=="json":
+            data = json.loads(data.decode('utf8'))
+        elif format=="rows":
+            data = json.loads(data.decode('utf8'))
+            j = []
+            schema = data.pop(0)
+            for row in data:
+                j.append(dict(zip(schema,row)))
+            data=j
+        elif format == "columns":
+            data = json.loads(data.decode('utf8'))
+            j = []
+            m = max([len(x) for x in data.items()])
+            for i in range(m):
+                row={}
+                for k in data.keys():
+                    row[k]=data[k][i]
+                j.append(row)
+            data = j
+        elif format == "csv":
+            data = {'csv': 'coming soon'}
+        else:
+            return dj.error("unknown format: %s" % format)
+        # kwords['format']=format
+        kwords['data']=data
     try:
         ret = func(*parts, **kwords)
     except:
