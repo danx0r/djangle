@@ -1,5 +1,10 @@
 import os,sys
 
+cmd="""curl 'http://localhost:8000/djtest/testy/zzz/test?foo=bar' """
+print (cmd)
+os.system(cmd)
+print ("\n")
+
 cmd="""curl 'http://localhost:8000/djtest/save/test?data=\{"boo":"paw"\}' """
 print (cmd)
 os.system(cmd)

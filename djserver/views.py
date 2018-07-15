@@ -124,21 +124,23 @@ def home(request):
 
         else:
             return dj.error("unknown format: %s" % format)
-        # kwords['format']=format
-        # kwords['data']=data
-    if type(data)!=list:
-        data=[data]
-    n=0
-    for row in data:
-        try:
-            kwords['data']=row
-            print ("CALLFUNC:", parts, kwords)
-            ret = func(*parts, **kwords)
-            if not ret:
-                return dj.error(ret)
-        except:
-            return dj.html(traceback.format_exc())
-        n+=1
-    ret=dj.json("processed %d rows" % n)
+
+    if data == None:
+        ret = func(*parts, **kwords)
+    else:
+        if type(data)!=list:
+            data=[data]
+        n=0
+        for row in data:
+            try:
+                kwords['data']=row
+                print ("CALLFUNC:", parts, kwords)
+                ret = func(*parts, **kwords)
+                if not ret == True:
+                    return dj.error(ret)
+            except:
+                return dj.html(traceback.format_exc())
+            n+=1
+        ret=dj.json("processed %d rows" % n)
     print ("RETURNS:",ret)
     return ret
