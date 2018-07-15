@@ -8,7 +8,8 @@ def mongo_query(*args):
     pass
 
 def mongo_save(collection, data):
-    return json("saved '%s' to %s" % (data,collection))
+    print ("SAVING: %s to %s" % (data, collection))
+    return True
 
 def error(s):
     return JsonResponse({'error': s})
