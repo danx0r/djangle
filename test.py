@@ -14,3 +14,8 @@ cmd="""curl -X POST 'http://localhost:8000/djtest/save/test?format=columns' -d '
 print (cmd)
 os.system(cmd)
 print ("\n")
+
+cmd="""curl -X POST 'http://localhost:8000/djtest/save/test?format=csv' -d 'f1,f2,f3\n1,22,333\n"four",5,66' """
+print (cmd)
+os.system(cmd)
+print ("\n")

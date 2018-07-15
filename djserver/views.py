@@ -1,4 +1,4 @@
-import sys, os, json
+import sys, os, json, io, csv
 # from django.http import Http404
 # from django.shortcuts import get_object_or_404, render
 from django.http import JsonResponse, HttpResponse
@@ -94,7 +94,34 @@ def home(request):
                 j.append(row)
             data = j
         elif format == "csv":
-            data = {'csv': 'coming soon'}
+            delim = ","
+            if 'delimiter' in kwords:
+                delim = kwords['delimiter']
+                del kwords['delimiter']
+            f = io.StringIO(data.decode('utf8'))
+            data = []
+            r = csv.reader(f, delimiter=delim)
+            for schema in r:
+                break
+            r = csv.reader(f, delimiter=delim)
+            n = 0
+            for row in r:
+                try:
+                    x = {}
+                    # print( len(schema) , len(row))
+                    if len(schema) < len(row):
+                        print ("WARNING: unused data in row %d" % n)
+                    if len(schema) > len(row):
+                        print ("WARNING: unfilled fields in row %d" % n)
+                    for key, val in zip(schema, row):
+                        x[key] = val
+                    data.append(x)
+                except:
+                    print("ERROR: csv read error at row %d" % n)
+                    traceback.print_exc()
+                n += 1
+            f.close()
+
         else:
             return dj.error("unknown format: %s" % format)
         # kwords['format']=format
