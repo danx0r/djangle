@@ -2,7 +2,8 @@
 import sys,os,argparse
 
 def serve(host="127.0.0.1", port=8000):
-    os.chdir("djangle")
+    if os.path.isdir("djangle"):
+        os.chdir("djangle")
     cmd="python3 manage.py runserver %s:%s" % (host,port)
     os.system(cmd)
 
