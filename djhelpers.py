@@ -6,8 +6,10 @@ def mongo_set(host, db):
     connection = MongoClient(host)
     database = connection[db]
 
-def mongo_query(*args):
-    pass
+def mongo_query_one(collection, query):
+    ret=dict(database[collection].find_one(query))
+    ret['_id'] = str(ret['_id'])
+    return ret
 
 def mongo_save(collection, data):
     print ("SAVING: %s to %s" % (data, collection))

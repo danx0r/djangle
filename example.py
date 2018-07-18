@@ -22,3 +22,9 @@ def testx(arg1, arg2, ass, fish=None, RAWDATA=None):
 
 def save(collection, data):
     return dj.mongo_save(collection, data)
+
+def retrieve(collection, **kw):
+    print ("RETRIEVE %s KW: %s" % (collection, kw))
+    ret = dj.mongo_query_one(collection, kw)
+    print ("  RET",ret)
+    return dj.json(ret)

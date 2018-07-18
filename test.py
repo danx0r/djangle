@@ -24,3 +24,8 @@ cmd="""curl -X POST 'http://localhost:8000/example/save/test?format=csv' -d 'f1,
 print (cmd)
 os.system(cmd)
 print ("\n")
+
+cmd="""curl 'http://localhost:8000/example/retrieve/test?far=paw' """
+print (cmd)
+os.system(cmd)
+print ("\n")
