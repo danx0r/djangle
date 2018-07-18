@@ -136,8 +136,8 @@ def home(request):
                 kwords['data']=row
                 print ("CALLFUNC:", parts, kwords)
                 ret = func(*parts, **kwords)
-                if not ret == True:
-                    return dj.error(ret)
+                if type(ret)==dict and "error" in ret:
+                    return ret
             except:
                 return dj.html(traceback.format_exc())
             n+=1

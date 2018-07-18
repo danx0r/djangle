@@ -1,8 +1,9 @@
 #this file gets imported by djserver
 from djangle import djhelpers as dj
 
-MONGO="mongodb://127.0.0.1:27017"
-dj.mongo_set(MONGO, "test_db")
+HOST="mongodb://127.0.0.1:27017"
+DB="local"
+dj.mongo_set(HOST, DB)
 
 #
 # Create endpoint /version
@@ -20,5 +21,4 @@ def testx(arg1, arg2, ass, fish=None, RAWDATA=None):
     return dj.html("%s %s %s %s and %d bytes of raw data type %s" % (arg1, arg2, ass, fish, len(RAWDATA),type(RAWDATA)))
 
 def save(collection, data):
-    dj.mongo_save(collection, data)
-    return True
+    return dj.mongo_save(collection, data)

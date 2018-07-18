@@ -1,17 +1,20 @@
 from django.http import JsonResponse, HttpResponse
-import json as JSON
+from pymongo import MongoClient
 
-def mongo_set(*args):
-    pass
+def mongo_set(host, db):
+    global connection, database
+    connection = MongoClient(host)
+    database = connection[db]
 
 def mongo_query(*args):
     pass
 
 def mongo_save(collection, data):
     print ("SAVING: %s to %s" % (data, collection))
-    return True
+    return database[collection].insert_one(data)
 
 def error(s):
+    print ("ERROR:", s)
     return JsonResponse({'error': s})
 
 def json(x):
