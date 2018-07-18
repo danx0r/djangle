@@ -7,8 +7,10 @@ def mongo_set(host, db):
     database = connection[db]
 
 def mongo_query_one(collection, query):
-    ret=dict(database[collection].find_one(query))
-    ret['_id'] = str(ret['_id'])
+    ret=database[collection].find_one(query)
+    if ret:
+        ret=dict(database[collection].find_one(query))
+        ret['_id'] = str(ret['_id'])
     return ret
 
 def mongo_query_many(collection, query):
