@@ -11,6 +11,12 @@ def mongo_query_one(collection, query):
     ret['_id'] = str(ret['_id'])
     return ret
 
+def mongo_query_many(collection, query):
+    ret=list(database[collection].find(query))
+    for row in ret:
+        row['_id'] = str(row['_id'])
+    return ret
+
 def mongo_save(collection, data):
     print ("SAVING: %s to %s" % (data, collection))
     return database[collection].insert_one(data)
@@ -23,7 +29,7 @@ def json(x):
     print ("DEBUG",x)
     if type(x) not in (dict, list):
         x = {'response': x}
-    return JsonResponse(x)
+    return JsonResponse(x, safe=False)
 
 def html(x):
     return HttpResponse(x)

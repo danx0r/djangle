@@ -25,7 +25,7 @@ print (cmd)
 os.system(cmd)
 print ("\n")
 
-cmd="""curl 'http://localhost:8000/example/retrieve/test?far=paw' """
+cmd="""curl 'http://localhost:8000/example/search/test?far=paw' """
 print (cmd)
 os.system(cmd)
 print ("\n")

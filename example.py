@@ -23,8 +23,14 @@ def testx(arg1, arg2, ass, fish=None, RAWDATA=None):
 def save(collection, data):
     return dj.mongo_save(collection, data)
 
-def retrieve(collection, **kw):
+def searchone(collection, **kw):
     print ("RETRIEVE %s KW: %s" % (collection, kw))
     ret = dj.mongo_query_one(collection, kw)
+    print ("  RET",ret)
+    return dj.json(ret)
+
+def search(collection, **kw):
+    print ("RETRIEVE %s KW: %s" % (collection, kw))
+    ret = dj.mongo_query_many(collection, kw)
     print ("  RET",ret)
     return dj.json(ret)
