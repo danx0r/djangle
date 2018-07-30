@@ -1,10 +1,14 @@
 from django.http import JsonResponse, HttpResponse
 from pymongo import MongoClient
+import mongoengine as meng
 
 def mongo_set(host, db):
     global connection, database
+    #pymongo
     connection = MongoClient(host)
     database = connection[db]
+    #mongoengine
+    meng.connect(db)
 
 def mongo_query_one(collection, query):
     ret=database[collection].find_one(query)
