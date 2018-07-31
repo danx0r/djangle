@@ -23,10 +23,17 @@ modules = {}
 
 @csrf_exempt
 def home(request):
+    try:
+        print ("FROM:", request.META['REMOTE_ADDR'], request.META['REMOTE_HOST'], request.body)
+    except:
+        print ("FROM:", request.META['REMOTE_ADDR'], request.META['REMOTE_HOST'], "body was unprintable")
+
     endpt = request.get_full_path()
     if "?" in endpt:
         endpt = endpt[:endpt.find("?")]
     parts = [x for x in endpt.split("/") if x != ""]
+    if parts==["favicon.ico"]:
+        return dj.html("")
     print ("PARTS:",parts)
     if len(parts)<1:
         return dj.html("Perhaps you need some help?")
