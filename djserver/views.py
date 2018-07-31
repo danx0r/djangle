@@ -7,6 +7,7 @@ from django.shortcuts import render, get_object_or_404, render_to_response
 from django.views.decorators.csrf import csrf_exempt
 import traceback
 import pymongo
+from urllib.parse import parse_qs
 import djhelpers as dj
 
 sys.path.insert(0, os.path.abspath(".."))
@@ -21,6 +22,13 @@ static_context = {
 
 modules = {}
 
+def parse_qstring(s):
+    q = parse_qs(s)
+    for key, val in q.items():
+        if type(val)==list and len(val)==1:
+            q[key] = val[0]
+    return q
+
 @csrf_exempt
 def home(request):
     try:
@@ -29,7 +37,9 @@ def home(request):
         print ("FROM:", request.META['REMOTE_ADDR'], request.META['REMOTE_HOST'], "body was unprintable")
 
     endpt = request.get_full_path()
+    rawquery = ""
     if "?" in endpt:
+        rawquery = endpt[endpt.find("?")+1:]
         endpt = endpt[:endpt.find("?")]
     parts = [x for x in endpt.split("/") if x != ""]
     if parts==["favicon.ico"]:
@@ -69,7 +79,17 @@ def home(request):
     kwords = {}
     format="json"
     data=None
-    for key,val in request.GET.items():
+    if '?' in rawquery:
+        extra = rawquery[rawquery.find("?"):]
+        rawquery = rawquery[:rawquery.find("?")]
+        query = parse_qstring(rawquery)
+        print("DBG",query)
+        if 'url' in query:
+            query['url'] += extra
+    else:
+        query = parse_qstring(rawquery)
+    print ("Q:", query)
+    for key,val in query.items():
         if key=="data":
             data=bytes(val,encoding='utf8')
         elif key == "format":
