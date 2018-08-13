@@ -118,7 +118,9 @@ WSGI_APPLICATION = 'djserver.wsgi.application'
 # )
 # set template path to root, so apps can specify their respective subdirectories
 tempath = os.path.abspath(os.path.join(os.path.dirname(__file__), '..', ''))
-# print "DXBUG file:", __file__, "template path:", tempath
+tempath2 = os.path.abspath(os.path.join(os.path.dirname(__file__), '../..', ''))
+print ("DXBUG file:", __file__, "template path:", tempath)
+print ("DXBUG file:", __file__, "template path2:", tempath2)
 
 #>= django 1.10
 TEMPLATES = [
@@ -126,6 +128,7 @@ TEMPLATES = [
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
         'DIRS': [
             tempath,# tempath + "/sandbox"
+            tempath2
         ],
         'APP_DIRS': True,
         'OPTIONS': {

@@ -1,4 +1,5 @@
 from django.http import JsonResponse, HttpResponse
+from django.shortcuts import render
 from pymongo import MongoClient
 import mongoengine as meng
 
@@ -38,3 +39,6 @@ def json(x):
 
 def html(x):
     return HttpResponse(x)
+
+def file(fn, context={}):
+    return render(None, fn, context)

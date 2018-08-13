@@ -1,9 +1,8 @@
 import sys, os, json, io, csv
 # from django.http import Http404
 # from django.shortcuts import get_object_or_404, render
-from django.http import JsonResponse, HttpResponse
+# from django.http import JsonResponse, HttpResponse
 # from django.core.urlresolvers import reverse
-from django.shortcuts import render, get_object_or_404, render_to_response
 from django.views.decorators.csrf import csrf_exempt
 import traceback
 import pymongo
@@ -46,7 +45,7 @@ def home(request):
         return dj.html("")
     print ("PARTS:",parts)
     if len(parts)<1:
-        return dj.html("Perhaps you need some help?")
+        return dj.html('<div>Perhaps you need some help? try <a href="/help/docs">here</a></div>')
 
     try:
         mod = parts.pop(0)
