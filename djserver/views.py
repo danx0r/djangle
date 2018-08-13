@@ -32,7 +32,7 @@ def parse_qstring(s):
 @csrf_exempt
 def home(request):
     try:
-        print ("FROM:", request.META['REMOTE_ADDR'], request.META['REMOTE_HOST'], request.body)
+        print ("FROM:", request.META['REMOTE_ADDR'], request.META['REMOTE_HOST'], request.body[:150])
     except:
         print ("FROM:", request.META['REMOTE_ADDR'], request.META['REMOTE_HOST'], "body was unprintable")
 
@@ -74,7 +74,7 @@ def home(request):
         traceback.print_exc()
         return dj.error("api function not found: %s"%endpt)
     print ("ARGS:",parts)
-    print ("POST:",request.POST)
+    # print ("POST:",request.POST)
     print ("GET:",request.GET)
     kwords = {}
     format="json"
@@ -100,7 +100,7 @@ def home(request):
         data = request.body#.decode('utf8'))
 
     if data:
-        print ("DATA:",data)
+        print ("DATA: %d bytes" % len(data))
         if format=="json":
             data = json.loads(data.decode('utf8'))
         elif format=="rows":
@@ -162,7 +162,7 @@ def home(request):
         for row in data:
             try:
                 kwords['data']=row
-                print ("CALLFUNC:", parts, kwords)
+                # print ("CALLFUNC:", parts, kwords)
                 ret = func(*parts, **kwords)
                 if type(ret)==dict and "error" in ret:
                     return ret
@@ -171,5 +171,5 @@ def home(request):
                 return dj.html(traceback.format_exc())
             n+=1
         ret=dj.json({"response":rets, "rows_processed": n})
-    print ("RETURNS:",ret)
+    # print ("RETURNS:",ret)
     return ret
