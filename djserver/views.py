@@ -158,6 +158,7 @@ def home(request):
         if type(data)!=list:
             data=[data]
         n=0
+        rets=[]
         for row in data:
             try:
                 kwords['data']=row
@@ -165,9 +166,10 @@ def home(request):
                 ret = func(*parts, **kwords)
                 if type(ret)==dict and "error" in ret:
                     return ret
+                rets.append(ret)
             except:
                 return dj.html(traceback.format_exc())
             n+=1
-        ret=dj.json("processed %d rows" % n)
+        ret=dj.json({"response":rets, "rows_processed": n})
     print ("RETURNS:",ret)
     return ret
