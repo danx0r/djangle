@@ -156,6 +156,9 @@ def home(request):
     else:
         if type(data)!=list:
             data=[data]
+            count=1
+        else:
+            count=len(data)
         n=0
         rets=[]
         for row in data:
@@ -169,6 +172,9 @@ def home(request):
             except:
                 return dj.html(traceback.format_exc())
             n+=1
-        ret=dj.json({"response":rets, "rows_processed": n})
+        if count>1:
+            ret=dj.json({"response":rets, "rows_processed": n})
+        else:
+            ret = dj.json(rets[0])
     # print ("RETURNS:",ret)
     return ret
