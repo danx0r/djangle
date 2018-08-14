@@ -175,7 +175,12 @@ def home(request):
             n+=1
         if count>1:
             ret=dj.json({"response":rets, "rows_processed": n})
+        elif count==1:
+            try:
+                ret = dj.json(rets[0])
+            except:
+                ret = "BADJSON: " + str(rets[0])
         else:
-            ret = dj.json(rets[0])
+            ret = dj.error("No data processed")
     # print ("RETURNS:",ret)
     return ret
