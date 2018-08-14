@@ -153,6 +153,7 @@ def home(request):
 
     if data == None:
         ret = func(*parts, **kwords)
+        ret = dj.json(ret)
     else:
         if type(data)!=list:
             data=[data]
