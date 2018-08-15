@@ -168,8 +168,10 @@ def home(request):
                 # print ("CALLFUNC:", parts, kwords)
                 ret = func(*parts, **kwords)
                 if type(ret)==dict and "error" in ret:
-                    return ret
-                rets.append(ret)
+                    ret["rows_processed"]=n
+                    return dj.json(ret)
+                if ret != None:
+                    rets.append(ret)
             except:
                 return dj.html(traceback.format_exc())
             n+=1

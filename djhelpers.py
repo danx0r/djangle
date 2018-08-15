@@ -25,7 +25,7 @@ def mongo_query_many(collection, query):
     return ret
 
 def mongo_save(collection, data):
-    print ("SAVING: %s to %s" % (data, collection))
+    # print ("SAVING: %s to %s" % (data, collection))
     return database[collection].insert_one(data)
 
 def error(s):
