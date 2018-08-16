@@ -45,8 +45,8 @@ def home(request):
         return dj.html("")
     print ("PARTS:",parts)
     if len(parts)<1:
-        return dj.html('<div>Perhaps you need some help? try <a href="/help/docs">here</a></div>')
-
+#        return dj.html('<div>Perhaps you need some help? try <a href="/help/docs">here</a></div>')
+        parts=["index", "home"]
     try:
         mod = parts.pop(0)
     except:
