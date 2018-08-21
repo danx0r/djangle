@@ -198,3 +198,5 @@ LOGGING = {
         },
     }
 }
+
+DATA_UPLOAD_MAX_MEMORY_SIZE=2000000000
