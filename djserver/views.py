@@ -171,7 +171,7 @@ def home(request):
                 if type(ret)==dict and "error" in ret:
                     ret["rows_processed"]=n
                     return dj.json(ret)
-                if ret != None:
+                if count == 1 or ret != None:
                     rets.append(ret)
             except:
                 return dj.html(traceback.format_exc())
