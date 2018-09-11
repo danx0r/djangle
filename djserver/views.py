@@ -11,8 +11,8 @@ import djhelpers as dj
 
 sys.path.insert(0, os.path.abspath(".."))
 
-host=pymongo.MongoClient()
-db=host['test']
+#host=pymongo.MongoClient()
+#db=host['test']
 
 static_context = {
     'images': 'static/images/',
