@@ -9,7 +9,7 @@ import pymongo
 from urllib.parse import parse_qs
 import djhelpers as dj
 
-sys.path.insert(0, os.path.abspath(".."))
+sys.path.insert(0, os.path.abspath("/home/ubuntu/Price_com/server2"))
 
 #host=pymongo.MongoClient()
 #db=host['test']
@@ -30,10 +30,10 @@ def parse_qstring(s):
 
 @csrf_exempt
 def home(request):
-    try:
-        print ("FROM:", request.META['REMOTE_ADDR'], request.META['REMOTE_HOST'], request.body[:150])
-    except:
-        print ("FROM:", request.META['REMOTE_ADDR'], request.META['REMOTE_HOST'], "body was unprintable")
+#    try:
+#        print ("FROM:", request.META['REMOTE_ADDR'], request.META['REMOTE_HOST'], request.body[:150])
+#    except:
+#        print ("FROM:", request.META['REMOTE_ADDR'], request.META['REMOTE_HOST'], "body was unprintable")
 
     endpt = request.get_full_path()
     rawquery = ""
@@ -55,9 +55,13 @@ def home(request):
     if mod not in modules:
         print ("Loading", mod)
         try:
-            base=os.path.abspath(".")
+            #base=os.path.abspath(".")
+            base="/home/ubuntu/Price_com/server2/djangle/"
+            os.chdir(base)
             os.chdir("..")
+            print("DEEBG",sys.path)
             modules[mod]=__import__(mod)
+            #import apiv1 as mod
             os.chdir(base)
             print("Loaded", mod)
         except:
