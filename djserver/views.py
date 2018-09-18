@@ -9,7 +9,12 @@ import pymongo
 from urllib.parse import parse_qs
 import djhelpers as dj
 
-sys.path.insert(0, os.path.abspath("/home/ubuntu/Price_com/server2"))
+hostdir=os.path.dirname(__file__)
+hostdir=hostdir[:hostdir.rfind('/')]
+base=hostdir
+hostdir=hostdir[:hostdir.rfind('/')]
+print("hostdir:",hostdir)
+sys.path.insert(0, hostdir)
 
 #host=pymongo.MongoClient()
 #db=host['test']
@@ -55,13 +60,12 @@ def home(request):
     if mod not in modules:
         print ("Loading", mod)
         try:
-            #base=os.path.abspath(".")
-            base="/home/ubuntu/Price_com/server2/djangle/"
+#            os.chdir(os.path.dirname(__file__))
+#            os.chdir("..")
+#            base=os.path.abspath(".")
             os.chdir(base)
             os.chdir("..")
-            print("DEEBG",sys.path)
             modules[mod]=__import__(mod)
-            #import apiv1 as mod
             os.chdir(base)
             print("Loaded", mod)
         except:
