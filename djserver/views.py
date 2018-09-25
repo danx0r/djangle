@@ -8,7 +8,6 @@ import traceback
 import pymongo
 from urllib.parse import parse_qs
 import djhelpers as dj
-
 hostdir=os.path.dirname(__file__)
 hostdir=hostdir[:hostdir.rfind('/')]
 base=hostdir
@@ -35,11 +34,6 @@ def parse_qstring(s):
 
 @csrf_exempt
 def home(request):
-#    try:
-#        print ("FROM:", request.META['REMOTE_ADDR'], request.META['REMOTE_HOST'], request.body[:150])
-#    except:
-#        print ("FROM:", request.META['REMOTE_ADDR'], request.META['REMOTE_HOST'], "body was unprintable")
-
     endpt = request.get_full_path()
     rawquery = ""
     if "?" in endpt:

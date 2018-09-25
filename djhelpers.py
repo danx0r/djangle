@@ -1,5 +1,6 @@
 from django.http import JsonResponse, HttpResponse
 from django.shortcuts import render
+from django.contrib.auth import authenticate
 from pymongo import MongoClient
 import mongoengine as meng
 
@@ -42,3 +43,13 @@ def html(x):
 
 def file(fn, context={}):
     return render(None, fn, context)
+
+def auth(kw):
+    if 'user' not in kw:
+        return error("Must specify a user")
+    if 'password' not in kw:
+        return error("Must specify a password")
+    user = authenticate(username=kw['user'], password=kw['password'])
+    if user == None:
+        return error("Failure to authenticate")
+    return True

@@ -13,7 +13,7 @@ MANAGERS = ADMINS
 DATABASES = {
     'default': {
         'ENGINE': 'djongo',
-        'NAME': 'cridb',
+        'NAME': 'admin',
         'HOST': 'localhost',
         'PORT': 27017,
     }
@@ -172,7 +172,7 @@ INSTALLED_APPS = (
     'django.contrib.staticfiles',
     'corsheaders',
     # Uncomment the next line to enable the admin:
-    # 'django.contrib.admin',
+    'django.contrib.admin',
     # Uncomment the next line to enable admin documentation:
     # 'django.contrib.admindocs',
 )
