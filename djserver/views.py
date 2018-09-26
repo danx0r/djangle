@@ -34,8 +34,6 @@ def login(request):
     u = request.GET.get('user')
     p = request.GET.get('password')
     user = authenticate(request, username=u, password=p)
-    print ("DBAAG", u, p, user)
-    # user = get_user(request)
     if user:
         dlogin(request, user)
     return dj.html("logged in as %s" % user)
@@ -50,8 +48,6 @@ def whoami(request):
 
 @csrf_exempt
 def home(request):
-    if os.environ.get("DJANGLE_REQUIRE_LOGIN") and not request.user.is_authenticated:
-        return dj.error("not logged in")
     endpt = request.get_full_path()
     rawquery = ""
     if "?" in endpt:
@@ -83,6 +79,10 @@ def home(request):
         except:
             traceback.print_exc()
             return dj.error("api module not found: %s" % mod)
+
+    if getattr(modules[mod], "REQUIRE_LOGIN", False) and not request.user.is_authenticated:
+        return dj.error("not logged in")
+
     try:
         func = parts.pop(0)
     except:

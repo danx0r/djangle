@@ -57,6 +57,3 @@ def auth(kw):
     if user == None:
         return error("Failure to authenticate")
     return True
-
-def require_login():
-    os.environ["DJANGLE_REQUIRE_LOGIN"] = "TRUE"
