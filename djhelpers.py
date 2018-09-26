@@ -1,8 +1,11 @@
+import os
 from django.http import JsonResponse, HttpResponse
 from django.shortcuts import render
-from django.contrib.auth import authenticate
+from django.contrib.auth import authenticate, login
 from pymongo import MongoClient
 import mongoengine as meng
+
+REQUIRE_LOGIN = False
 
 def mongo_set(host, db):
     global connection, database
@@ -50,6 +53,10 @@ def auth(kw):
     if 'password' not in kw:
         return error("Must specify a password")
     user = authenticate(username=kw['user'], password=kw['password'])
+    print ("AUTHENTIC:", user, user.is_authenticated )
     if user == None:
         return error("Failure to authenticate")
     return True
+
+def require_login():
+    os.environ["DJANGLE_REQUIRE_LOGIN"] = "TRUE"

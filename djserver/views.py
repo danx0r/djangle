@@ -16,9 +16,6 @@ hostdir=hostdir[:hostdir.rfind('/')]
 print("hostdir:",hostdir)
 sys.path.insert(0, hostdir)
 
-#host=pymongo.MongoClient()
-#db=host['test']
-
 static_context = {
     'images': 'static/images/',
     'scripts': 'static/scripts/',
@@ -44,12 +41,16 @@ def login(request):
     return dj.html("logged in as %s" % user)
 
 def logout(request):
+    ret = dj.html("logging out %s" % request.user)
     dlogout(request)
-    return dj.html("logged out %s" % request.user)
+    return ret
+
+def whoami(request):
+    return dj.html("%s" % request.user)
 
 @csrf_exempt
 def home(request):
-    if not request.user.is_authenticated:
+    if os.environ.get("DJANGLE_REQUIRE_LOGIN") and not request.user.is_authenticated:
         return dj.error("not logged in")
     endpt = request.get_full_path()
     rawquery = ""
