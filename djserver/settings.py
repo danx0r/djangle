@@ -13,7 +13,7 @@ MANAGERS = ADMINS
 DATABASES = {
     'default': {
         'ENGINE': 'djongo',
-        'NAME': 'admin',
+        'NAME': 'djangle',
         'HOST': 'localhost',
         'PORT': 27017,
     }
