@@ -4,6 +4,7 @@ import sys, os, json, io, csv
 # from django.http import JsonResponse, HttpResponse
 # from django.core.urlresolvers import reverse
 from django.views.decorators.csrf import csrf_exempt
+from django.contrib.auth import authenticate, login as dlogin, logout as dlogout, get_user
 import traceback
 import pymongo
 from urllib.parse import parse_qs
@@ -32,8 +33,24 @@ def parse_qstring(s):
             q[key] = val[0]
     return q
 
+def login(request):
+    u = request.GET.get('user')
+    p = request.GET.get('password')
+    user = authenticate(request, username=u, password=p)
+    print ("DBAAG", u, p, user)
+    # user = get_user(request)
+    if user:
+        dlogin(request, user)
+    return dj.html("logged in as %s" % user)
+
+def logout(request):
+    dlogout(request)
+    return dj.html("logged out %s" % request.user)
+
 @csrf_exempt
 def home(request):
+    if not request.user.is_authenticated:
+        return dj.error("not logged in")
     endpt = request.get_full_path()
     rawquery = ""
     if "?" in endpt:
