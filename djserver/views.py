@@ -48,6 +48,7 @@ def whoami(request):
 
 @csrf_exempt
 def home(request):
+    kwords = {}
     endpt = request.get_full_path()
     rawquery = ""
     if "?" in endpt:
@@ -60,6 +61,7 @@ def home(request):
     if len(parts)<1:
 #        return dj.html('<div>Perhaps you need some help? try <a href="/help/docs">here</a></div>')
         parts=["index", "home"]
+        kwords['user'] = request.user
     try:
         mod = parts.pop(0)
     except:
@@ -95,7 +97,6 @@ def home(request):
     print ("ARGS:",parts)
     # print ("POST:",request.POST)
     print ("GET:",request.GET)
-    kwords = {}
     format="json"
     data=None
     if '?' in rawquery:
