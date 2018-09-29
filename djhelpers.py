@@ -5,8 +5,6 @@ from django.contrib.auth import authenticate, login
 from pymongo import MongoClient
 import mongoengine as meng
 
-REQUIRE_LOGIN = False
-
 def mongo_set(host, db):
     global connection, database
     #pymongo

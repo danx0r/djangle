@@ -59,8 +59,10 @@ def home(request):
     if parts==["favicon.ico"]:
         return dj.html("")
     print ("PARTS:",parts)
-    if len(parts)==2 and parts[0]=='djangle':
-        return dj.file(parts[0])
+    if len(parts)==3 and parts[0]=='djangle':
+        path = "%s/%s" % tuple(parts[1:])
+        print ("Load static file %s" % path)
+        return dj.file(path)
     if len(parts)<1:
        # return dj.html('<div>Perhaps you need some help? try <a href="/help/docs">here</a></div>')
         parts=["index", "home"]
