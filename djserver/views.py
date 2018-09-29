@@ -12,6 +12,7 @@ import djhelpers as dj
 hostdir=os.path.dirname(__file__)
 hostdir=hostdir[:hostdir.rfind('/')]
 base=hostdir
+print("basedir:",hostdir)
 hostdir=hostdir[:hostdir.rfind('/')]
 print("hostdir:",hostdir)
 sys.path.insert(0, hostdir)
@@ -58,8 +59,10 @@ def home(request):
     if parts==["favicon.ico"]:
         return dj.html("")
     print ("PARTS:",parts)
+    if len(parts)==2 and parts[0]=='djangle':
+        return dj.file(parts[0])
     if len(parts)<1:
-#        return dj.html('<div>Perhaps you need some help? try <a href="/help/docs">here</a></div>')
+       # return dj.html('<div>Perhaps you need some help? try <a href="/help/docs">here</a></div>')
         parts=["index", "home"]
         kwords['user'] = request.user
     try:
@@ -70,9 +73,9 @@ def home(request):
     if mod not in modules:
         print ("Loading", mod)
         try:
-#            os.chdir(os.path.dirname(__file__))
-#            os.chdir("..")
-#            base=os.path.abspath(".")
+           # os.chdir(os.path.dirname(__file__))
+           # os.chdir("..")
+           # base=os.path.abspath(".")
             os.chdir(base)
             os.chdir("..")
             modules[mod]=__import__(mod)
