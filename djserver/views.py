@@ -17,11 +17,6 @@ hostdir=hostdir[:hostdir.rfind('/')]
 print("hostdir:",hostdir)
 sys.path.insert(0, hostdir)
 
-static_context = {
-    'images': 'static/images/',
-    'scripts': 'static/scripts/',
-}
-
 modules = {}
 
 def parse_qstring(s):
