@@ -11,5 +11,6 @@ urlpatterns = [
     url(r'^api_login$', views.login, name='login'),
     url(r'^api_logout$', views.logout, name='logout'),
     url(r'^whoami$', views.whoami, name='whoami'),
+    url(r'^files/', views.files, name='files'),
     url(r'^', views.home, name='home'),
 ]

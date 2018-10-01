@@ -26,6 +26,10 @@ def parse_qstring(s):
             q[key] = val[0]
     return q
 
+def files(request):
+    print ("DBGG" )
+    return dj.html("%s" % request.user)
+
 def login(request):
     u = request.GET.get('user')
     p = request.GET.get('password')
