@@ -27,8 +27,11 @@ def parse_qstring(s):
     return q
 
 def files(request):
-    print ("DBGG" )
-    return dj.html("%s" % request.user)
+    path = request.get_full_path()
+    if path[:1] == '/':
+        path = path[1:]
+    print("Load static file %s" % path)
+    return dj.file(path)
 
 def login(request):
     u = request.GET.get('user')
