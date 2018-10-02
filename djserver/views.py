@@ -210,7 +210,7 @@ def home(request):
             try:
                 ret = dj.json(rets[0])
             except:
-                ret = "BADJSON: " + str(rets[0])
+                ret = dj.json(str(rets[0]))
         else:
             ret = dj.error("No data processed")
     # print ("RETURNS:",ret)
