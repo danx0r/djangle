@@ -27,12 +27,15 @@ def mongo_query_many(collection, query):
     return ret
 
 def mongo_save(collection, data):
-    # print ("SAVING: %s to %s" % (data, collection))
+    print ("SAVING: %s to %s" % (data, collection))
     resp = database[collection].insert_one(data)
     if len(str(resp.inserted_id))==24:
         return None
     else:
         return "error saving document"
+
+def mongo_drop_collection(collection):
+    database[collection].drop()
 
 def error(s):
     print ("ERROR:", s)
