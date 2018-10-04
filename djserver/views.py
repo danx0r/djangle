@@ -180,10 +180,15 @@ def home(request):
                 n += 1
             f.close()
 
+        elif format == "raw":
+            print ("raw data")
+
         else:
             return dj.error("unknown format: %s" % format)
 
-    if data == None:
+    if format == "raw":
+        kwords['data'] = data
+    if data == None or format == "raw":
         ret = func(*parts, **kwords)
         if "Response" not in str(type(ret)):
             ret = dj.json(ret)
