@@ -12,6 +12,7 @@ def mongo_set(host, db):
     database = connection[db]
     #mongoengine
     meng.connect(db, host=host)
+    return database
 
 def mongo_query_one(collection, query):
     ret=database[collection].find_one(query)
@@ -27,15 +28,8 @@ def mongo_query_many(collection, query):
     return ret
 
 def mongo_save(collection, data):
-    print ("SAVING: %s to %s" % (data, collection))
-    resp = database[collection].insert_one(data)
-    if len(str(resp.inserted_id))==24:
-        return None
-    else:
-        return "error saving document"
-
-def mongo_drop_collection(collection):
-    database[collection].drop()
+    # print ("SAVING: %s to %s" % (data, collection))
+    return database[collection].insert_one(data)
 
 def error(s):
     print ("ERROR:", s)
