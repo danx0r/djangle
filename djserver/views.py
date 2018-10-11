@@ -70,7 +70,7 @@ def home(request):
             print("Loaded", mod)
         except:
             traceback.print_exc()
-            return dj.error("api module not found: %s" % mod)
+            return dj.error("api module not found: %s working directory: %s" % (mod, os.path.abspath('.')) )
     try:
         func = parts.pop(0)
     except:
