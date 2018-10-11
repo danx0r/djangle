@@ -16,8 +16,10 @@ hostdir=hostdir[:hostdir.rfind('/')]
 print("hostdir:",hostdir)
 sys.path.insert(0, hostdir)
 
-#host=pymongo.MongoClient()
-#db=host['test']
+files = os.listdir(hostdir)
+loadables = [x[:-3] for x in files if x[-3:]==".py"]
+loadables.append('example')
+print ("loadables:", loadables)
 
 static_context = {
     'images': 'static/images/',
@@ -58,11 +60,10 @@ def home(request):
         traceback.print_exc()
         return dj.error("must specify a module")
     if mod not in modules:
+        if mod not in loadables:
+            return dj.error("%s not supported" % mod)
         print ("Loading", mod)
         try:
-#            os.chdir(os.path.dirname(__file__))
-#            os.chdir("..")
-#            base=os.path.abspath(".")
             os.chdir(base)
             os.chdir("..")
             modules[mod]=__import__(mod)
@@ -71,7 +72,7 @@ def home(request):
         except:
             os.chdir(base)
             traceback.print_exc()
-            return dj.error("api module not found: %s" % mod)
+            return dj.error("api module load error: %s" % mod)
     try:
         func = parts.pop(0)
     except:
