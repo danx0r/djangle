@@ -69,6 +69,7 @@ def home(request):
             os.chdir(base)
             print("Loaded", mod)
         except:
+            os.chdir(base)
             traceback.print_exc()
             return dj.error("api module not found: %s" % mod)
     try:
