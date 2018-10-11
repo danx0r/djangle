@@ -81,8 +81,10 @@ def home(request):
     try:
         func = vars(modules[mod])[func]
     except:
+        p = os.path.abspath('.')
+        os.chdir(base)
         traceback.print_exc()
-        return dj.error("api function not found: %s"%endpt)
+        return dj.error("api function not found: %s working directory: % s" % (endpt, p))
     print ("ARGS:",parts)
     # print ("POST:",request.POST)
     print ("GET:",request.GET)
