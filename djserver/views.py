@@ -39,7 +39,7 @@ def home(request):
 #        print ("FROM:", request.META['REMOTE_ADDR'], request.META['REMOTE_HOST'], request.body[:150])
 #    except:
 #        print ("FROM:", request.META['REMOTE_ADDR'], request.META['REMOTE_HOST'], "body was unprintable")
-
+    os.chdir(hostdir)
     endpt = request.get_full_path()
     rawquery = ""
     if "?" in endpt:
