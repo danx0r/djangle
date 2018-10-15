@@ -1,7 +1,7 @@
 # Django settings for djserver project.
 import os
 
-DEBUG = os.environ.get("DJANGLE_DEBUG", False)
+DEBUG = 1#os.environ.get("DJANGLE_DEBUG", False)
 TEMPLATE_DEBUG = DEBUG
 
 ADMINS = (
