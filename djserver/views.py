@@ -109,6 +109,7 @@ def home(request):
     # print ("POST:",request.POST)
     print ("GET:",request.GET)
     format="json"
+    responseformat="json"
     data=None
     if '?' in rawquery:
         extra = rawquery[rawquery.find("?"):]
@@ -125,6 +126,8 @@ def home(request):
             data=bytes(val,encoding='utf8')
         elif key == "format":
             format = val
+        elif key == "responseformat":
+            responseformat = val
         else:
             kwords[key]=val
     if request.method=="POST":
@@ -191,7 +194,12 @@ def home(request):
     if data == None or format == "raw":
         ret = func(*parts, **kwords)
         if "Response" not in str(type(ret)):
-            ret = dj.json(ret)
+            if responseformat == "raw":
+                ret = dj.html(ret)
+            elif responseformat == "json":
+                ret = dj.json(ret)
+            else:
+                ret = dj.error("unknown responsformat: %s" % responseformat)
     else:
         if type(data)!=list:
             data=[data]
