@@ -74,7 +74,7 @@ def home(request):
         kwords['superuser'] = request.user.is_superuser
     try:
         ep = parts.pop(0)
-        if ep not in endpoints.djangle_endpoints:
+        if ep != "index" and ep not in endpoints.djangle_endpoints:
             return dj.error("Unknown endpoint: %s" % ep)
     except:
         traceback.print_exc()
