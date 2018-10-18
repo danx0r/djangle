@@ -29,7 +29,6 @@ def parse_qstring(s):
     return q
 
 @csrf_exempt
-<<<<<<< HEAD
 def files(request):
     path = request.get_full_path()
     if path[:1] == '/':
@@ -58,6 +57,7 @@ def whoami(request):
 
 @csrf_exempt
 def home(request):
+    kwords = {}
     endpt = request.get_full_path()
     rawquery = ""
     if "?" in endpt:
@@ -87,7 +87,6 @@ def home(request):
         return dj.error("must specify a valid function")
 
     func = funcmap[func]
-    kwords = {}
     format="json"
     responseformat="json"
     data=None

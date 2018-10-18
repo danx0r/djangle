@@ -15,7 +15,7 @@ djangle_endpoints=["example"]
 def example_version():
     return dj.json({'version': "0.0.001"})
 
-# http://localhost/example/testy/arg1?arg2=3
+# http://localhost:8000/example/testy/arg1?arg2=3
 def example_testy(*args, **kw):
     return dj.json({"args": args, "keywords": kw})
 
