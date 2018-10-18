@@ -29,6 +29,7 @@ def parse_qstring(s):
     return q
 
 @csrf_exempt
+<<<<<<< HEAD
 def files(request):
     path = request.get_full_path()
     if path[:1] == '/':
@@ -113,7 +114,7 @@ def home(request):
         data = request.body#.decode('utf8'))
 
     if data:
-        print ("DATA: %d bytes" % len(data))
+        # print ("DATA: %d bytes" % len(data))
         if format=="json":
             data = json.loads(data.decode('utf8'))
         elif format=="rows":
