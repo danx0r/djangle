@@ -209,8 +209,5 @@ LOGGING = {
 }
 
 DATA_UPLOAD_MAX_MEMORY_SIZE=2000000000
-<<<<<<< HEAD
 
 LOGIN_REDIRECT_URL = "/"
-=======
->>>>>>> master
