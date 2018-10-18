@@ -73,6 +73,7 @@ def home(request):
        # return dj.html('<div>Perhaps you need some help? try <a href="/help/docs">here</a></div>')
         parts=["index", "home"]
         kwords['user'] = str(request.user)
+        kwords['superuser'] = request.user.is_superuser
     try:
         mod = parts.pop(0)
     except:
