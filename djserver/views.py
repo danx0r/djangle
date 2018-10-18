@@ -9,15 +9,17 @@ import traceback
 import pymongo
 from urllib.parse import parse_qs
 import djhelpers as dj
-hostdir=os.path.dirname(__file__)
-hostdir=hostdir[:hostdir.rfind('/')]
-base=hostdir
-print("basedir:",hostdir)
-hostdir=hostdir[:hostdir.rfind('/')]
-print("hostdir:",hostdir)
-sys.path.insert(0, hostdir)
+import endpoints
 
-modules = {}
+epdir = dir(endpoints)
+funcmap={}
+for ep in endpoints.djangle_endpoints:
+    funcs = [x for x in epdir if x[:len(ep)+1] == ep+"_"]
+    funcmap.update({x[len(ep)+1:]: endpoints.__dict__[x] for x in funcs})
+
+funcnames=funcmap.keys()
+
+print ("funcmap:", funcnames, funcmap)
 
 def parse_qstring(s):
     q = parse_qs(s)
@@ -55,7 +57,6 @@ def whoami(request):
 
 @csrf_exempt
 def home(request):
-    kwords = {}
     endpt = request.get_full_path()
     rawquery = ""
     if "?" in endpt:
@@ -64,51 +65,28 @@ def home(request):
     parts = [x for x in endpt.split("/") if x != ""]
     if parts==["favicon.ico"]:
         return dj.html("")
-    print ("PARTS:",parts)
-    if len(parts)==3 and parts[0]=='djangle':
-        path = "%s/%s" % tuple(parts[1:])
-        print ("Load static file %s" % path)
-        return dj.file(path)
+    # print ("PARTS:",parts)
     if len(parts)<1:
-       # return dj.html('<div>Perhaps you need some help? try <a href="/help/docs">here</a></div>')
+#        return dj.html('<div>Perhaps you need some help? try <a href="/help/docs">here</a></div>')
         parts=["index", "home"]
         kwords['user'] = str(request.user)
         kwords['superuser'] = request.user.is_superuser
     try:
-        mod = parts.pop(0)
+        ep = parts.pop(0)
+        if ep not in endpoints.djangle_endpoints:
+            return dj.error("Unknown endpoint: %s" % ep)
     except:
         traceback.print_exc()
         return dj.error("must specify a module")
-    if mod not in modules:
-        print ("Loading", mod)
-        try:
-           # os.chdir(os.path.dirname(__file__))
-           # os.chdir("..")
-           # base=os.path.abspath(".")
-            os.chdir(base)
-            os.chdir("..")
-            modules[mod]=__import__(mod)
-            os.chdir(base)
-            print("Loaded", mod)
-        except:
-            traceback.print_exc()
-            return dj.error("api module not found: %s" % mod)
-
-    if getattr(modules[mod], "REQUIRE_LOGIN", False) and not request.user.is_authenticated:
-        return dj.error("not logged in")
-
     try:
         func = parts.pop(0)
     except:
         return dj.error("must specify a function")
-    try:
-        func = vars(modules[mod])[func]
-    except:
-        traceback.print_exc()
-        return dj.error("api function not found: %s"%endpt)
-    print ("ARGS:",parts)
-    # print ("POST:",request.POST)
-    print ("GET:",request.GET)
+    if func not in funcnames:
+        return dj.error("must specify a valid function")
+
+    func = funcmap[func]
+    kwords = {}
     format="json"
     responseformat="json"
     data=None
@@ -116,12 +94,12 @@ def home(request):
         extra = rawquery[rawquery.find("?"):]
         rawquery = rawquery[:rawquery.find("?")]
         query = parse_qstring(rawquery)
-        print("DBG",query)
+        # print("DBG",query)
         if 'url' in query:
             query['url'] += extra
     else:
         query = parse_qstring(rawquery)
-    print ("Q:", query)
+    # print ("Q:", query)
     for key,val in query.items():
         if key=="data":
             data=bytes(val,encoding='utf8')
@@ -228,7 +206,7 @@ def home(request):
             try:
                 ret = dj.json(rets[0])
             except:
-                ret = dj.json(str(rets[0]))
+                ret = "BADJSON: " + str(rets[0])
         else:
             ret = dj.error("No data processed")
     # print ("RETURNS:",ret)
