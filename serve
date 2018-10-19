@@ -1,17 +1,18 @@
 #!/usr/bin/python3
 import sys,os,argparse
 
-def serve(host="127.0.0.1", port=8000):
+def serve(host="127.0.0.1", port=8000, reload=False):
     if os.path.isdir("djangle"):
         os.chdir("djangle")
-    cmd="python3 manage.py runserver %s:%s" % (host,port)
+    cmd="python3 manage.py runserver %s:%s %s" % (host, port, '' if reload else '--noreload')
     os.system(cmd)
 
 parser = argparse.ArgumentParser(description=__doc__)
 
 parser.add_argument('--host', default="127.0.0.1")
 parser.add_argument('--port', default=8000)
+parser.add_argument('--noreload', action='store_true')
 
 args = parser.parse_args()
 
-serve(args.host, args.port)
+serve(args.host, args.port, not args.noreload)
