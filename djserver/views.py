@@ -61,7 +61,8 @@ def login(request):
 
 @csrf_exempt
 def logout(request):
-    ret = dj.html("logging out %s" % request.user)
+    ret = dj.html('<div style="float:left;font-size:113%%;font-family:sans">logged out %s</div>'
+                  '<a style="float:right;font-size:113%%;font-family:sans" href="/login/">sign back in</a>' % request.user)
     dlogout(request)
     return ret
 
