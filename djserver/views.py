@@ -33,8 +33,22 @@ def files(request):
     path = request.get_full_path()
     if path[:1] == '/':
         path = path[1:]
-    print("Load static file %s" % path)
+    print("Load app static file %s" % path)
     return dj.file(path)
+
+@csrf_exempt
+def static(request):
+    path = request.get_full_path()
+    if path[:1] == '/':
+        path = path[1:]
+    typ=None
+    if path[-4:]==".css":
+        typ="text/css"
+    elif path[-3:]==".js":
+        typ="application/javascript"
+    #add more content types here
+    print("Load system static file %s content type %s" % (path, typ))
+    return dj.file(path, type=typ)
 
 @csrf_exempt
 def login(request):

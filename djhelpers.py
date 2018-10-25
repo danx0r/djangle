@@ -43,8 +43,8 @@ def json(x):
 def html(x):
     return HttpResponse(x)
 
-def file(fn, context={}):
-    return render(None, fn, context)
+def file(fn, context={}, type=None):
+    return render(None, fn, context, content_type=type)
 
 def auth(kw):
     if 'user' not in kw:
