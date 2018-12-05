@@ -10,6 +10,7 @@ def mongo_set(host, db):
     database = connection[db]
     #mongoengine
     meng.connect(db, host=host)
+    return database
 
 def mongo_query_one(collection, query):
     ret=database[collection].find_one(query)
