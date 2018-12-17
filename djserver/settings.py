@@ -1,7 +1,15 @@
 # Django settings for djserver project.
-import os
+import os, sys
 
-DEBUG = os.environ.get("DJANGLE_DEBUG", False)
+apppath = os.path.abspath(os.path.join(os.path.dirname(__file__), '../..', ''))
+sys.path.append(apppath)
+
+try:
+    from djangle_config import djangle_debug as DEBUG
+except:
+    DEBUG = os.environ.get("DJANGLE_DEBUG", False)
+print("DJANGLE_DEBUG: %s" % DEBUG)
+
 TEMPLATE_DEBUG = DEBUG
 
 ADMINS = (
