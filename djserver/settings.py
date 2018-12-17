@@ -1,7 +1,20 @@
 # Django settings for djserver project.
-import os
+import os, sys
 
-DEBUG = os.environ.get("DJANGLE_DEBUG", False)
+apppath = os.path.abspath(os.path.join(os.path.dirname(__file__), '../..', ''))
+sys.path.append(apppath)
+try:
+    from djangle_config import djangle_debug as DEBUG, mongo_host
+    i = mongo_host.rfind(':')
+    if i>0:
+        mongo_port = int(mongo_host[i+1:])
+        mongo_host = mongo_host[:i]
+except:
+    DEBUG = False
+    mongo_port = 27017
+    mongo_host = "localhost"
+print("DEBUG: %s MPORT: %s MHOST: %s APPPATH: %s" % (DEBUG, mongo_host, mongo_port, apppath))
+
 TEMPLATE_DEBUG = DEBUG
 
 ADMINS = (
@@ -16,8 +29,8 @@ try:
         'default': {
             'ENGINE': 'djongo',
             'NAME': 'djangle',
-            'HOST': 'localhost',
-            'PORT': 27017,
+            'HOST': mongo_host,
+            'PORT': mongo_port,
         }
     }
 except:
