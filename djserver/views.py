@@ -28,7 +28,7 @@ def parse_qstring(s):
             q[key] = val[0]
     return q
 
-@csrf_exempt
+#@csrf_exempt
 def files(request):
     path = request.get_full_path()
     if path[:1] == '/':
@@ -36,7 +36,7 @@ def files(request):
     print("Load app static file %s" % path)
     return dj.file(path)
 
-@csrf_exempt
+#@csrf_exempt
 def static(request):
     path = request.get_full_path()
     if path[:1] == '/':
@@ -50,7 +50,7 @@ def static(request):
     print("Load system static file %s content type %s" % (path, typ))
     return dj.file(path, type=typ)
 
-@csrf_exempt
+#@csrf_exempt
 def login(request):
     u = request.GET.get('user')
     p = request.GET.get('password')
@@ -59,18 +59,18 @@ def login(request):
         dlogin(request, user)
     return dj.html("logged in as %s" % user)
 
-@csrf_exempt
+#@csrf_exempt
 def logout(request):
     ret = dj.html('<div style="float:left;font-size:113%%;font-family:sans">logged out %s</div>'
                   '<a style="float:right;font-size:113%%;font-family:sans" href="/login/">sign back in</a>' % request.user)
     dlogout(request)
     return ret
 
-@csrf_exempt
+#@csrf_exempt
 def whoami(request):
     return dj.html("%s" % request.user)
 
-@csrf_exempt
+#@csrf_exempt
 def home(request):
     kwords = {}
     endpt = request.get_full_path()
