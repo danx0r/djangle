@@ -8,9 +8,13 @@ function fetchtext(url, method, data) {
     params.method = method;
     params.body = data;
   }
-  console.log(params)
+  console.log("fetchy:", params)
   return (fetch(url, params)
   .then(function(response) {
     return response.text()
+  })
+  .catch(function(error) {
+     console.log("fetchy:", error);
+    return JSON.stringify({"response": ""+error});
   }));
 };
