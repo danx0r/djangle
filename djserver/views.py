@@ -64,15 +64,7 @@ def home(request):
     kwords = {}
     format="json"
     data=None
-    if '?' in rawquery:
-        extra = rawquery[rawquery.find("?"):]
-        rawquery = rawquery[:rawquery.find("?")]
-        query = parse_qstring(rawquery)
-        # print("DBG",query)
-        if 'url' in query:
-            query['url'] += extra
-    else:
-        query = parse_qstring(rawquery)
+    query = parse_qstring(rawquery)
     # print ("Q:", query)
     for key,val in query.items():
         if key=="data":
