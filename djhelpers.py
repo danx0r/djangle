@@ -2,6 +2,10 @@ from django.http import JsonResponse, HttpResponse
 from django.shortcuts import render
 from pymongo import MongoClient
 import mongoengine as meng
+from django.template import Context
+from  django.template import RequestContext
+from django.template import Template
+import os
 
 def mongo_set(host, db):
     global connection, database
@@ -42,4 +46,14 @@ def html(x):
     return HttpResponse(x)
 
 def file(fn, context={}):
-    return render(None, fn, context)
+    print ("DEBUG", os.path.abspath('.'))
+    try:
+        f = open(fn, encoding="utf8")
+        s = f.read()
+        f.close()
+    except:
+        f = open(fn, encoding="latin")
+        s = f.read()
+        f.close()
+    template = Template(s)
+    return HttpResponse(template.render(Context(context)))
