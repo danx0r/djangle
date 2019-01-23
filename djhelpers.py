@@ -1,5 +1,7 @@
+import traceback
 from django.http import JsonResponse, HttpResponse
 from django.shortcuts import render
+from django.conf import settings
 from pymongo import MongoClient
 import mongoengine as meng
 
@@ -29,9 +31,13 @@ def mongo_save(collection, data):
     # print ("SAVING: %s to %s" % (data, collection))
     return database[collection].insert_one(data)
 
-def error(s):
-    print ("ERROR:", s)
-    return JsonResponse({'error': s})
+def error(s, status=200):
+    if status == 200:
+        return JsonResponse({'error': s})
+    if settings.DEBUG:
+        print("STATUS: %d ERROR: %s" % (status, s))
+        s += "\n" + traceback.format_exc()
+    return HttpResponse(s, content_type='text/plain', status = status)
 
 def json(x):
     if type(x) not in (dict, list):
