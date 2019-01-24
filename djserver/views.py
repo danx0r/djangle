@@ -168,6 +168,7 @@ def home(request):
         return ret
     except:
         status = 500
-        print ("DJANGLE HTTP ERROR: %d EXCEPTION:" % status)
-        traceback.print_exc()
+        trace = traceback.format_exc()
+        print ("DJANGLE HTTP ERROR: %d EXCEPTION: %s" % (status, trace.strip().split("\n")[-1]))
+        print (trace)
         return dj.error("HTTP 500 error", status=status)
