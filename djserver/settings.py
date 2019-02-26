@@ -4,13 +4,18 @@ import os, sys
 apppath = os.path.abspath(os.path.join(os.path.dirname(__file__), '../..', ''))
 sys.path.append(apppath)
 try:
-    from djangle_config import djangle_debug as DEBUG, mongo_host
+    from djangle_config import djangle_debug as DEBUG
+except:
+    DEBUG = False
+try:
+    from djangle_config import mongo_host
     i = mongo_host.rfind(':')
     if i>0:
         mongo_port = int(mongo_host[i+1:])
         mongo_host = mongo_host[:i]
+    else:
+        from djangle_config import mongo_port
 except:
-    DEBUG = False
     mongo_port = 27017
     mongo_host = "localhost"
 print("DEBUG: %s MPORT: %s MHOST: %s APPPATH: %s" % (DEBUG, mongo_host, mongo_port, apppath))
