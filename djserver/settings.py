@@ -217,26 +217,26 @@ LOGGING = {
 
 def identifyUser(req, res):
     p = req.GET.get('partner')
-    print('IdentifyUser:', p)
+    if DEBUG: print('moesif: IdentifyUser:', p)
     return p
 
 def identifyCompany(req, res):
     p = req.GET.get('partner')
-    print('IdentifyCompany:', p)
+    if DEBUG: print('moesif: IdentifyCompany:', p)
     return p
 
 def identifyUserOutgoing(req, res):
-    print('Identify user is called')
+    if DEBUG: print('moesif: Identify user is called')
     return 'test_outgoing'
 
 def identifyCompanyOutgoing(req, res):
-    print('Identify company is called')
+    if DEBUG: print('moesif: Identify company is called')
     return 'company_outgoing'
 
 def should_skip(req, res):
     # print("should skip is called")
     # print("request url is")
-    print(req.path)
+    if DEBUG: print(req.path)
     if "favicon" in req.path:
         # print("3 is in url, so skipped")
         return True
@@ -248,18 +248,14 @@ def mask_event(eventmodel):
     return eventmodel
 
 def get_token(req, res):
-    return "token is blah blah blah"
+    return "NOT_IMPLEMENTED"
 
 def get_metadata(req, res):
     return {
-        'foo': 'python1',
-        'bar': [1, 2, 3],
     }
 
 def get_metadata_outgoing(req, res):
     return {
-        'foo': 'python1 outgoing',
-        'bar': [1, 2, 3],
     }
 
 MOESIF_MIDDLEWARE = {
