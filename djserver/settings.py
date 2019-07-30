@@ -234,15 +234,13 @@ def identifyCompanyOutgoing(req, res):
     return 'company_outgoing'
 
 def should_skip(req, res):
-    # print("should skip is called")
-    # print("request url is")
-    if DEBUG: print(req.path)
     if "favicon" in req.path:
-        # print("3 is in url, so skipped")
         return True
-    else:
-        # print("3 not in url, so not skipped return false")
+    p = req.GET.get('partner')
+    if "d8e42fa2" in p or "35bfec1d" in p: #shoprunner, affirm
+        if DEBUG: print("not skipping %s partner: %s" % (req.path, p))
         return False
+    return True
 
 def mask_event(eventmodel):
     return eventmodel
