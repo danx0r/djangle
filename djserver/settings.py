@@ -4,13 +4,13 @@ import os, sys
 apppath = os.path.abspath(os.path.join(os.path.dirname(__file__), '../..', ''))
 sys.path.append(apppath)
 
-import config
-
 try:
     from djangle_config import djangle_debug as DEBUG
 except:
     DEBUG = os.environ.get("DJANGLE_DEBUG", False)
 print("DJANGLE_DEBUG: %s" % DEBUG)
+
+from djangle_config import moesif_id
 
 TEMPLATE_DEBUG = DEBUG
 
@@ -263,7 +263,7 @@ def get_metadata_outgoing(req, res):
     }
 
 MOESIF_MIDDLEWARE = {
-    'APPLICATION_ID': config.moesif_id,
+    'APPLICATION_ID': moesif_id,
     'LOCAL_DEBUG': False,
     'IDENTIFY_USER': identifyUser,
     'IDENTIFY_COMPANY': identifyCompany,
