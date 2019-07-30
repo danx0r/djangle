@@ -4,6 +4,8 @@ import os, sys
 apppath = os.path.abspath(os.path.join(os.path.dirname(__file__), '../..', ''))
 sys.path.append(apppath)
 
+import config
+
 try:
     from djangle_config import djangle_debug as DEBUG
 except:
@@ -110,6 +112,7 @@ MIDDLEWARE = (
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
+    'moesifdjango.middleware.moesif_middleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     # Uncomment the next line for simple clickjacking protection:
     # 'django.middleware.clickjacking.XFrameOptionsMiddleware',
@@ -177,6 +180,7 @@ INSTALLED_APPS = (
     # 'django.contrib.admin',
     # Uncomment the next line to enable admin documentation:
     # 'django.contrib.admindocs',
+    'moesifdjango',
 )
 
 SESSION_SERIALIZER = 'django.contrib.sessions.serializers.JSONSerializer'
@@ -208,6 +212,75 @@ LOGGING = {
             'propagate': True,
         },
     }
+}
+
+
+def identifyUser(req, res):
+    p = req.GET.get('partner')
+    print('IdentifyUser:', p)
+    return p
+
+def identifyCompany(req, res):
+    p = req.GET.get('partner')
+    print('IdentifyCompany:', p)
+    return p
+
+def identifyUserOutgoing(req, res):
+    print('Identify user is called')
+    return 'test_outgoing'
+
+def identifyCompanyOutgoing(req, res):
+    print('Identify company is called')
+    return 'company_outgoing'
+
+def should_skip(req, res):
+    # print("should skip is called")
+    # print("request url is")
+    print(req.path)
+    if "favicon" in req.path:
+        # print("3 is in url, so skipped")
+        return True
+    else:
+        # print("3 not in url, so not skipped return false")
+        return False
+
+def mask_event(eventmodel):
+    return eventmodel
+
+def get_token(req, res):
+    return "token is blah blah blah"
+
+def get_metadata(req, res):
+    return {
+        'foo': 'python1',
+        'bar': [1, 2, 3],
+    }
+
+def get_metadata_outgoing(req, res):
+    return {
+        'foo': 'python1 outgoing',
+        'bar': [1, 2, 3],
+    }
+
+MOESIF_MIDDLEWARE = {
+    'APPLICATION_ID': config.moesif_id,
+    'LOCAL_DEBUG': False,
+    'IDENTIFY_USER': identifyUser,
+    'IDENTIFY_COMPANY': identifyCompany,
+    'LOG_BODY': True,
+    'GET_SESSION_TOKEN': get_token,
+    'SKIP': should_skip,
+    'SKIP_OUTGOING': should_skip,
+    'IDENTIFY_USER_OUTGOING': identifyUserOutgoing,
+    'IDENTIFY_COMPANY_OUTGOING': identifyCompanyOutgoing,
+    'MASK_EVENT_MODEL': mask_event,
+    'GET_METADATA': get_metadata,
+    'GET_METADATA_OUTGOING': get_metadata,
+    'CAPTURE_OUTGOING_REQUESTS': False,
+    'USE_CELERY': False,
+    # 'CELERY_BROKER_URL': BROKER_URL,
+    'BATCH_SIZE': 25,
+    'DISABLE_TRANSACTION_ID' : False
 }
 
 DATA_UPLOAD_MAX_MEMORY_SIZE=2000000000
