@@ -236,7 +236,7 @@ def identifyCompanyOutgoing(req, res):
 def should_skip(req, res):
     if "favicon" in req.path:
         return True
-    p = req.GET.get('partner')
+    p = req.GET.get('partner', "")
     if "d8e42fa2" in p or "35bfec1d" in p: #shoprunner, affirm
         if DEBUG: print("not skipping %s partner: %s" % (req.path, p))
         return False
