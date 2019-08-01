@@ -10,7 +10,7 @@ except:
     DEBUG = os.environ.get("DJANGLE_DEBUG", False)
 print("DJANGLE_DEBUG: %s" % DEBUG)
 
-from djangle_config import moesif_id
+from moesif_middleware import MOESIF_MIDDLEWARE
 
 TEMPLATE_DEBUG = DEBUG
 
@@ -212,69 +212,6 @@ LOGGING = {
             'propagate': True,
         },
     }
-}
-
-
-def identifyUser(req, res):
-    p = req.GET.get('partner')
-    if DEBUG: print('moesif: IdentifyUser:', p)
-    return p
-
-def identifyCompany(req, res):
-    p = req.GET.get('partner')
-    if DEBUG: print('moesif: IdentifyCompany:', p)
-    return p
-
-def identifyUserOutgoing(req, res):
-    if DEBUG: print('moesif: Identify user is called')
-    return 'test_outgoing'
-
-def identifyCompanyOutgoing(req, res):
-    if DEBUG: print('moesif: Identify company is called')
-    return 'company_outgoing'
-
-def should_skip(req, res):
-    if "favicon" in req.path:
-        return True
-    p = req.GET.get('partner', "")
-    if "d8e42fa2" in p or "35bfec1d" in p: #shoprunner, affirm
-        if DEBUG: print("not skipping %s partner: %s" % (req.path, p))
-        return False
-    return True
-
-def mask_event(eventmodel):
-    return eventmodel
-
-def get_token(req, res):
-    return "NOT_IMPLEMENTED"
-
-def get_metadata(req, res):
-    return {
-    }
-
-def get_metadata_outgoing(req, res):
-    return {
-    }
-
-MOESIF_MIDDLEWARE = {
-    'APPLICATION_ID': moesif_id,
-    'LOCAL_DEBUG': False,
-    'IDENTIFY_USER': identifyUser,
-    'IDENTIFY_COMPANY': identifyCompany,
-    'LOG_BODY': True,
-    'GET_SESSION_TOKEN': get_token,
-    'SKIP': should_skip,
-    'SKIP_OUTGOING': should_skip,
-    'IDENTIFY_USER_OUTGOING': identifyUserOutgoing,
-    'IDENTIFY_COMPANY_OUTGOING': identifyCompanyOutgoing,
-    'MASK_EVENT_MODEL': mask_event,
-    'GET_METADATA': get_metadata,
-    'GET_METADATA_OUTGOING': get_metadata,
-    'CAPTURE_OUTGOING_REQUESTS': False,
-    'USE_CELERY': False,
-    # 'CELERY_BROKER_URL': BROKER_URL,
-    'BATCH_SIZE': 25,
-    'DISABLE_TRANSACTION_ID' : False
 }
 
 DATA_UPLOAD_MAX_MEMORY_SIZE=2000000000
