@@ -46,9 +46,9 @@ def home(request):
         # print ("PARTS:",parts)
         if len(parts)<1:
     #        return dj.html('<div>Perhaps you need some help? try <a href="/help/docs">here</a></div>')
-            parts=["index", "home"]
+            parts=["pages", "index"]
         elif len(parts) == 1:
-            parts.insert(0, "index")
+            parts.insert(0, "pages")
         try:
             ep = parts.pop(0)
             if ep not in endpoints.djangle_endpoints:
