@@ -19,6 +19,11 @@ def index_home():
 def pages_page1():
     return dj.html("<html><h1>First things 1st</h1></html>")
 #
+# serve from file /pages/test with template
+#
+def pages_test():
+    return dj.file("test.html", {'x': 'template'})
+#
 # Create endpoint /version
 #
 def example_version():
