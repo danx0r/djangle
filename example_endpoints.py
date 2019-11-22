@@ -7,8 +7,17 @@ HOST="mongodb://127.0.0.1:27017"
 DB="local"
 dj.mongo_set(HOST, DB)
 
-djangle_endpoints=["example"]
-
+djangle_endpoints=["index", "pages", "example"]
+#
+# main page
+#
+def index_home():
+    return dj.html("<html><h1>Djangle All The Way!</h1><a href='/pages/page1'>page 1</a></html>")
+#
+# another page /pages/page1
+#
+def pages_page1():
+    return dj.html("<html><h1>First things 1st</h1></html>")
 #
 # Create endpoint /version
 #
