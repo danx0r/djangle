@@ -48,6 +48,8 @@ def home(request):
     #        return dj.html('<div>Perhaps you need some help? try <a href="/help/docs">here</a></div>')
             parts=["pages", "index"]
         elif len(parts) == 1:
+            if parts[0].find(".") > -1:
+                return dj.file(parts[0])
             parts.insert(0, "pages")
         try:
             ep = parts.pop(0)
