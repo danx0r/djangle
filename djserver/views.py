@@ -79,6 +79,7 @@ def home(request):
             else:
                 kwords[key]=val
         if request.method=="POST":
+
             data = request.body#.decode('utf8'))
 
         if data:
@@ -130,7 +131,9 @@ def home(request):
                         traceback.print_exc()
                     n += 1
                 f.close()
-
+            elif format == "raw":
+                print ("RAW:", type(data), len(data))
+                return func(data=data)
             else:
                 return dj.error("unknown format: %s" % format)
 
