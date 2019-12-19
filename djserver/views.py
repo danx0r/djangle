@@ -36,6 +36,7 @@ def home(request):
 #     os.chdir(hostdir)
     try:
         endpt = request.get_full_path()
+        print ("DJANG IP:", request.META.REMOTE_ADDR)
         rawquery = ""
         if "?" in endpt:
             rawquery = endpt[endpt.find("?")+1:]
@@ -65,8 +66,10 @@ def home(request):
         if func not in funcnames:
             return dj.error("must specify a valid function")
 
-        func = funcmap[func]
         kwords = {}
+        if func in getattr(endpoints, "djangle_ret_meta", ()):
+            kwords['_request_meta_'] = request.META
+        func = funcmap[func]
         format="json"
         data=None
         query = parse_qstring(rawquery)
