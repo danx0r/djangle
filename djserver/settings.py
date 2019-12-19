@@ -10,7 +10,11 @@ except:
     DEBUG = os.environ.get("DJANGLE_DEBUG", False)
 print("DJANGLE_DEBUG: %s" % DEBUG)
 
-from moesif_middleware import MOESIF_MIDDLEWARE
+try:
+    from moesif_middleware import MOESIF_MIDDLEWARE
+except:
+    MOESIF_MIDDLEWARE = None
+    print ("DJANGLE: moesif off")
 
 TEMPLATE_DEBUG = DEBUG
 
@@ -116,7 +120,15 @@ MIDDLEWARE = (
     'django.contrib.messages.middleware.MessageMiddleware',
     # Uncomment the next line for simple clickjacking protection:
     # 'django.middleware.clickjacking.XFrameOptionsMiddleware',
+) if MOESIF_MIDDLEWARE else (
+    'corsheaders.middleware.CorsMiddleware',
+    'django.middleware.common.CommonMiddleware',
+    'django.contrib.sessions.middleware.SessionMiddleware',
+    'django.middleware.csrf.CsrfViewMiddleware',
+    'django.contrib.auth.middleware.AuthenticationMiddleware',
+    'django.contrib.messages.middleware.MessageMiddleware',
 )
+
 CORS_ORIGIN_ALLOW_ALL = True
 
 ROOT_URLCONF = 'djserver.urls'
@@ -181,6 +193,14 @@ INSTALLED_APPS = (
     # Uncomment the next line to enable admin documentation:
     # 'django.contrib.admindocs',
     'moesifdjango',
+) if MOESIF_MIDDLEWARE else (
+    'django.contrib.auth',
+    'django.contrib.contenttypes',
+    'django.contrib.sessions',
+    'django.contrib.sites',
+    'django.contrib.messages',
+    'django.contrib.staticfiles',
+    'corsheaders',
 )
 
 SESSION_SERIALIZER = 'django.contrib.sessions.serializers.JSONSerializer'
