@@ -30,7 +30,7 @@ def parse_qstring(s):
     return q
 
 @csrf_exempt
-@cache_page(60 * 15)
+@cache_page(60 * 60 * 24)
 def home(request):
 #    try:
 #        print ("FROM:", request.META['REMOTE_ADDR'], request.META['REMOTE_HOST'], request.body[:150])
