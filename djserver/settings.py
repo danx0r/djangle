@@ -3,6 +3,7 @@ import os, sys
 
 apppath = os.path.abspath(os.path.join(os.path.dirname(__file__), '../..', ''))
 sys.path.append(apppath)
+import djangle_config
 
 try:
     from djangle_config import djangle_debug as DEBUG
