@@ -4,6 +4,8 @@ import sys, os, json, io, csv
 # from django.http import JsonResponse, HttpResponse
 # from django.core.urlresolvers import reverse
 from django.views.decorators.csrf import csrf_exempt
+from django.views.decorators.cache import cache_page
+
 import traceback
 import pymongo
 from urllib.parse import parse_qs
@@ -28,6 +30,7 @@ def parse_qstring(s):
     return q
 
 @csrf_exempt
+@cache_page(60 * 15)
 def home(request):
 #    try:
 #        print ("FROM:", request.META['REMOTE_ADDR'], request.META['REMOTE_HOST'], request.body[:150])
