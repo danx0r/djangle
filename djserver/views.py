@@ -29,14 +29,8 @@ def parse_qstring(s):
 
 @csrf_exempt
 def home(request):
-#    try:
-#        print ("FROM:", request.META['REMOTE_ADDR'], request.META['REMOTE_HOST'], request.body[:150])
-#    except:
-#        print ("FROM:", request.META['REMOTE_ADDR'], request.META['REMOTE_HOST'], "body was unprintable")
-#     os.chdir(hostdir)
     try:
         endpt = request.get_full_path()
-        print ("DJANG IP:", request.META.REMOTE_ADDR)
         rawquery = ""
         if "?" in endpt:
             rawquery = endpt[endpt.find("?")+1:]
