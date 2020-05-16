@@ -29,6 +29,7 @@ def parse_qstring(s):
 
 @csrf_exempt
 def home(request):
+    # print ("HOME", request)
     try:
         endpt = request.get_full_path()
         rawquery = ""
@@ -49,7 +50,12 @@ def home(request):
         try:
             ep = parts.pop(0)
             if ep not in endpoints.djangle_endpoints:
-                return dj.error("Unknown endpoint: %s" % ep)
+                if ep=="static":
+                    fn = "./static/"+ "/".join(parts)
+                    print ("STATIC:", request.META.get('HTTP_ACCEPT'), fn)
+                    return dj.binary(fn, request.META.get('HTTP_ACCEPT'))
+                else:
+                    return dj.error("Unknown endpoint: %s" % ep)
         except:
             traceback.print_exc()
             return dj.error("must specify a module")

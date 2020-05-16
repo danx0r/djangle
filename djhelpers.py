@@ -4,6 +4,7 @@ from django.shortcuts import render
 from django.conf import settings
 from pymongo import MongoClient
 import mongoengine as meng
+import mimetypes
 
 def mongo_set(host, db):
     global connection, database
@@ -49,3 +50,10 @@ def html(x):
 
 def file(fn, context={}):
     return render(None, fn, context)
+
+def binary(fn, typ):
+    f=open(fn, 'rb')
+    dat=f.read()
+    f.close()
+    ret=HttpResponse(dat, content_type=mimetypes.guess_type(fn))
+    return ret
