@@ -55,5 +55,7 @@ def binary(fn, typ):
     f=open(fn, 'rb')
     dat=f.read()
     f.close()
-    ret=HttpResponse(dat, content_type=mimetypes.guess_type(fn))
+    ty = mimetypes.guess_type(fn)[0]
+    # print ("MIME:", fn, ty)
+    ret=HttpResponse(dat, content_type=ty)
     return ret
