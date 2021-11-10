@@ -1,7 +1,7 @@
 #setuptools 58 drops 2to3 which mongoengine needs
 setuptools==57.5.0
 
-Django==2.1.14
+Django==2.2.24
 django-cors-headers==2.4.0
 mongoengine==0.15.3
 pymongo==3.7.1
