@@ -37,8 +37,8 @@ def home(request):
             rawquery = endpt[endpt.find("?")+1:]
             endpt = endpt[:endpt.find("?")]
         parts = [x for x in endpt.split("/") if x != ""]
-        if parts==["favicon.ico"]:
-            return dj.html("")
+        # if parts==["favicon.ico"]:
+        #     return dj.html("")
         # print ("PARTS:",parts)
         if len(parts)<1:
     #        return dj.html('<div>Perhaps you need some help? try <a href="/help/docs">here</a></div>')
