@@ -51,11 +51,12 @@ def html(x):
 def file(fn, context={}):
     return render(None, fn, context)
 
-def binary(fn, typ):
+def binary(fn, typ=None):
     f=open(fn, 'rb')
     dat=f.read()
     f.close()
-    ty = mimetypes.guess_type(fn)[0]
-    # print ("MIME:", fn, ty)
-    ret=HttpResponse(dat, content_type=ty)
+    if not typ:
+        typ = mimetypes.guess_type(fn)[0]
+    # print ("MIME:", fn, typ)
+    ret=HttpResponse(dat, content_type=typ)
     return ret
