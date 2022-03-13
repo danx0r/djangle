@@ -52,8 +52,7 @@ def home(request):
             if ep not in endpoints.djangle_endpoints:
                 if ep=="static":
                     fn = "./static/"+ "/".join(parts)
-                    print ("STATIC:", request.META.get('HTTP_ACCEPT'), fn)
-                    return dj.binary(fn, request.META.get('HTTP_ACCEPT'))
+                    return dj.binary(fn)
                 else:
                     return dj.error("Unknown endpoint: %s" % ep)
         except:
